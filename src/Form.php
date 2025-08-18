@@ -42,6 +42,8 @@ class Form
     {
         $parameters['id'] = $parameters['id'] ?? $name;
         $parameters['name'] = $parameters['name'] ?? $name;
+        $parameters['rows'] = $rows;
+        $parameters['columns'] = $columns;
 
         return '<textarea' . self::attributes($parameters) . '>'
             . htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8')
