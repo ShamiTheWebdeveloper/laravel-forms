@@ -38,7 +38,7 @@ class Form
         return self::input('text', $name, $value, $parameters);
     }
 
-    public static function textarea($name, $value = null, $parameters = []): string
+    public static function textarea($name, $value = null, $rows=5, $columns=50, $parameters = []): string
     {
         $parameters['id'] = $parameters['id'] ?? $name;
         $parameters['name'] = $parameters['name'] ?? $name;
