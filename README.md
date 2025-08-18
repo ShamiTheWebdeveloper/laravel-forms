@@ -47,4 +47,8 @@ echo Form::close();
 
 {!! form()->close() !!}
 
+// If route has parameter use first parameter as array
+{!! form()->open(['updatePage',$page->id],'PATCH',false,true,['class'=>'page-form']) !!}
+
+
 ```
