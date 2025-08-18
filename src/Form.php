@@ -2,6 +2,8 @@
 
 namespace ShamiTheWebdeveloper\LaravelForms;
 
+use function Laravel\Prompts\multiselect;
+
 class Form
 {
     /**
@@ -105,6 +107,53 @@ class Form
         return self::input('url', $name, $value, $parameters);
     }
 
+    public static function tel($name, $value = null, $parameters = []): string
+    {
+        return self::input('tel', $name, $value, $parameters);
+    }
+
+    public static function search($name, $value = null, $parameters = []): string
+    {
+        return self::input('search', $name, $value, $parameters);
+    }
+
+    public static function time($name, $value = null, $parameters = []): string
+    {
+        return self::input('time', $name, $value, $parameters);
+    }
+
+    public static function dateTimeLocal($name, $value = null, $parameters = []): string
+    {
+        return self::input('datetime-local', $name, $value, $parameters);
+    }
+
+    public static function month($name, $value = null, $parameters = []): string
+    {
+        return self::input('month', $name, $value, $parameters);
+    }
+
+    public static function week($name, $value = null, $parameters = []): string
+    {
+        return self::input('week', $name, $value, $parameters);
+    }
+
+    public static function color($name, $value = null, $parameters = []): string
+    {
+        return self::input('color', $name, $value, $parameters);
+    }
+
+    public static function range($name, $value = null, $min=0, $max=100, $parameters = []): string
+    {
+        $parameters['min'] = $min;
+        $parameters['max'] = $max;
+        return self::input('range', $name, $value, $parameters);
+    }
+
+    public static function reset($name, $text, $parameters = []): string
+    {
+        return self::input('reset', $name, $text, $parameters);
+    }
+
     public static function select($name, array $options, $default = null, $parameters = []): string
     {
         $parameters['id'] = $parameters['id'] ?? $name;
@@ -112,7 +161,6 @@ class Form
 
         $output = '<select' . self::attributes($parameters) . '>';
         foreach ($options as $value => $label) {
-            // Support non-associative arrays
             if (is_int($value)) {
                 $value = $label;
             }
