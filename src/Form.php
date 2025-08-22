@@ -2,8 +2,6 @@
 
 namespace ShamiTheWebdeveloper\LaravelForms;
 
-use function Laravel\Prompts\multiselect;
-
 class Form
 {
     /**
@@ -26,16 +24,17 @@ class Form
             . '</button>';
     }
 
-    public static function label($text, $for = ''): string
+    public static function label($text, $for = '', $parameters=[]): string
     {
-        return '<label for="' . htmlspecialchars($for, ENT_QUOTES, 'UTF-8') . '">'
+        $parameters['for'] = $for;
+        return '<label ' . self::attributes($parameters) . '>'
             . htmlspecialchars($text, ENT_QUOTES, 'UTF-8')
             . '</label>';
     }
 
-    public static function text($name, $value = null, $parameters = []): string
+    public static function text($name, $value = null, $required=false, $parameters = []): string
     {
-        return self::input('text', $name, $value, $parameters);
+        return self::input('text', $name, $value, $required, $parameters);
     }
 
     public static function textarea($name, $value = null, $rows=5, $columns=50, $parameters = []): string
@@ -53,14 +52,16 @@ class Form
     public static function checkbox($name, $check = false, $value = null, $parameters = []): string
     {
         if ($check) $parameters['checked'] = 'checked';
-        return self::input('checkbox', $name, $value, $parameters);
+        return self::input('checkbox', $name, $value, false, $parameters);
     }
 
-    public static function input($type, $name, $value = null, $parameters = []): string
+    public static function input($type, $name, $value = null, $required=false, $parameters = []): string
     {
         $parameters['type'] = $type;
         $parameters['id'] = $parameters['id'] ?? $name;
         $parameters['name'] = $parameters['name'] ?? $name;
+        if ($required) $parameters['required'] = 'required';
+
         if ($value !== null) {
             $parameters['value'] = $value;
         }
@@ -68,19 +69,19 @@ class Form
         return '<input' . self::attributes($parameters) . ' />';
     }
 
-    public static function file($name, $parameters = []): string
+    public static function file($name, $required=false, $parameters = []): string
     {
-        return self::input('file', $name, null, $parameters);
+        return self::input('file', $name, null, $required, $parameters);
     }
 
-    public static function email($name, $value = null, $parameters = []): string
+    public static function email($name, $value = null, $required=false, $parameters = []): string
     {
-        return self::input('email', $name, $value, $parameters);
+        return self::input('email', $name, $value, $required, $parameters);
     }
 
-    public static function password($name, $parameters = []): string
+    public static function password($name, $required=false, $parameters = []): string
     {
-        return self::input('password', $name, null, $parameters);
+        return self::input('password', $name, null, $required, $parameters);
     }
 
     public static function radio($name, $checked = false, $value = null, $parameters = []): string
@@ -91,69 +92,69 @@ class Form
 
     public static function hidden($name, $value = null, $parameters = []): string
     {
-        return self::input('hidden', $name, $value, $parameters);
+        return self::input('hidden', $name, $value, false, $parameters);
     }
 
-    public static function number($name, $value = null, $parameters = []): string
+    public static function number($name, $value = null, $required=false, $parameters = []): string
     {
-        return self::input('number', $name, $value, $parameters);
+        return self::input('number', $name, $value, $required, $parameters);
     }
 
-    public static function date($name, $value = null, $parameters = []): string
+    public static function date($name, $value = null, $required=false, $parameters = []): string
     {
-        return self::input('date', $name, $value, $parameters);
+        return self::input('date', $name, $value, $required, $parameters);
     }
 
-    public static function url($name, $value = null, $parameters = []): string
+    public static function url($name, $value = null, $required=false, $parameters = []): string
     {
-        return self::input('url', $name, $value, $parameters);
+        return self::input('url', $name, $value, $required, $parameters);
     }
 
-    public static function tel($name, $value = null, $parameters = []): string
+    public static function tel($name, $value = null, $required=false, $parameters = []): string
     {
-        return self::input('tel', $name, $value, $parameters);
+        return self::input('tel', $name, $value, $required, $parameters);
     }
 
-    public static function search($name, $value = null, $parameters = []): string
+    public static function search($name, $value = null, $required=false, $parameters = []): string
     {
-        return self::input('search', $name, $value, $parameters);
+        return self::input('search', $name, $value, $required, $parameters);
     }
 
-    public static function time($name, $value = null, $parameters = []): string
+    public static function time($name, $value = null, $required=false, $parameters = []): string
     {
-        return self::input('time', $name, $value, $parameters);
+        return self::input('time', $name, $value, $required, $parameters);
     }
 
-    public static function dateTimeLocal($name, $value = null, $parameters = []): string
+    public static function dateTimeLocal($name, $value = null, $required=false, $parameters = []): string
     {
-        return self::input('datetime-local', $name, $value, $parameters);
+        return self::input('datetime-local', $name, $value, $required, $parameters);
     }
 
-    public static function month($name, $value = null, $parameters = []): string
+    public static function month($name, $value = null, $required=false, $parameters = []): string
     {
-        return self::input('month', $name, $value, $parameters);
+        return self::input('month', $name, $value, $required, $parameters);
     }
 
-    public static function week($name, $value = null, $parameters = []): string
+    public static function week($name, $value = null, $required=false, $parameters = []): string
     {
-        return self::input('week', $name, $value, $parameters);
+        return self::input('week', $name, $value, $required, $parameters);
     }
 
     public static function color($name, $value = null, $parameters = []): string
     {
-        return self::input('color', $name, $value, $parameters);
+        return self::input('color', $name, $value, false, $parameters);
     }
 
     public static function range($name, $value = null, $min=0, $max=100, $parameters = []): string
     {
         $parameters['min'] = $min;
         $parameters['max'] = $max;
-        return self::input('range', $name, $value, $parameters);
+        return self::input('range', $name, $value, false, $parameters);
     }
 
     public static function reset($name, $text, $parameters = []): string
     {
-        return self::input('reset', $name, $text, $parameters);
+        return self::input('reset', $name, $text, false, $parameters);
     }
 
     public static function select($name, array $options, $default = null, $parameters = []): string
@@ -178,7 +179,6 @@ class Form
 
     public static function open($route, $method = 'POST', $files = false, $useCsrf = true, $parameters = []): string
     {
-        // Resolve route
         if (is_array($route)) {
             $route = route($route[0], $route[1]);
         } else {
